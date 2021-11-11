@@ -69,11 +69,31 @@ Ny = 3
 #         eq_ij = "(u^{n+1}_{%d,%d}-u^{n}_{%d,%d}) + \\sigma\\Delta t\\left(\\alpha u^{n}_{%d,%d} + \\beta %su^{n}_{%d,%d}%s +  \\beta %su^{n}_{%d,%d}%s +  \\gamma %su^{n}_{%d,%d}%s +  \\gamma %su^{n}_{%d,%d}%s\\right) = f^{n}_{%d,%d} \\\\ " % (i, j, i, j, i, j, greenip1j ,i+1, j, greenip1jf, greenim1j, i-1, j, greenim1jf, greenijp1, i, j+1, greenijp1f, greenijm1, i, j-1, greenijm1f, i, j)
 #         print(eq_ij)
 
-for I in range(Nx*Ny):
-    print "u^{n+1}_{%d}\\\\" %(I)
+# for I in range(Nx*Ny):
+#     print "u^{n+1}_{%d}\\\\" %(I)
 
-for I in range(Nx*Ny):
-    print "u^{n}_{%d}\\\\" %(I)
+# for I in range(Nx*Ny):
+#     print "u^{n}_{%d}\\\\" %(I)
 
-for I in range(Nx*Ny):
-    print "f^{n}_{%d}\\\\" %(I)
+# for I in range(Nx*Ny):
+#     print "f^{n}_{%d}\\\\" %(I)
+
+
+for j in range(1,4):
+    for i in range(1,5):
+        I = (j-1)*Nx + i-1
+        greenip1j = greenip1jf = greenim1j = greenim1jf = greenijp1 = greenijp1f = greenijm1 = greenijm1f = ""
+        if i == 1 :
+            greenim1j = "{\\color{green}"
+            greenim1jf = "}"
+        if i == Nx :
+            greenip1j = "{\\color{green}"
+            greenip1jf = "}"
+        if j == 1 :
+            greenijm1 = "{\\color{green}"
+            greenijm1f = "}"
+        if j == Ny :
+            greenijp1 = "{\\color{green}"
+            greenijp1f = "}"
+        eq_ij = "(u^{n+1}_{%d}-u^{n}_{%d}) + \\sigma\\Delta t\\left(\\alpha u^{n}_{%d} + \\beta %su^{n}_{%d}%s +  \\beta %su^{n}_{%d}%s +  \\gamma %su^{n}_{%d}%s +  \\gamma %su^{n}_{%d}%s\\right) = f^{n}_{%d} \\\\ " % (I, I, I, greenip1j, I+1, greenip1jf, greenim1j, I-1, greenim1jf, greenijp1, I+Nx, greenijp1f, greenijm1, I-Nx, greenijm1f, I)
+        print(eq_ij)
