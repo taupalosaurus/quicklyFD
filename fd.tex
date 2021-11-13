@@ -142,15 +142,15 @@ qui se discrétise sous la forme suivante, dans le cas d'un schéma en temps d'E
 \end{equation}
 Ce qui peut se réécrire:
 \begin{equation}
- (u^{n+1}_{i,j}-u^{n}_{i,j}) + \sigma\Delta t\left(\alpha u^{n}_{i,j} - \beta u^{n}_{i+1,j} +  \beta u^{n}_{i-1,j} + \gamma u^{n}_{i,j+1} +  \gamma u^{n}_{i,j-1}\right) = \Delta t f^{n}_{i,j} \,,
+ (u^{n+1}_{i,j}-u^{n}_{i,j}) + \sigma\Delta t\left(\alpha u^{n}_{i,j} + \beta u^{n}_{i+1,j} +  \beta u^{n}_{i-1,j} + \gamma u^{n}_{i,j+1} +  \gamma u^{n}_{i,j-1}\right) = \Delta t f^{n}_{i,j} \,,
 \label{eq:discrete2}
 \end{equation}
-avec $\alpha = \frac{2}{\Delta x^2} + \frac{2}{\Delta y^2}$, $\beta = -\frac{2}{\Delta x^2}$ et $\gamma = -\frac{2}{\Delta y^2}$ \,.
+avec $\alpha = \frac{2\sigma}{\Delta x^2} + \frac{2\sigma}{\Delta y^2}$, $\beta = -\frac{1}{\Delta x^2}$ et $\gamma = -\frac{1}{\Delta y^2}$ \,.
 
 \bigskip
 
 
-Si on considère le cas de la Figure~\ref{fig:mesh}, $u$ est connue sur les bords (les conditions aux bords sont une donnée du problème), on écrit donc l'équation pour chaque point interne:
+Si on considère le cas de la Figure~(\ref{fig:mesh}), $u$ est connue sur les bords (les conditions aux bords sont une donnée du problème), donc les inconnues sont sur les sommets internes. On écrit donc l'équation pour chaque sommet interne:
 \begin{equation}
 \left\{
 \begin{array}{l}
@@ -194,37 +194,37 @@ Dans ce système, on va remplacer les termes en vert, qui correspondent aux somm
 
 Pour les autres conditions au bord, il faudrait remplacer les termes en vert par autre chose (\emph{cf} slides de cours).
 
-Informatiquement, il est parfois difficile de se repérer dans la grande matrice en utilisant i et j, on peut donc utiliser le I défini dans \ref{eq:transfoIndices}. On peut alors réécrire l'équation \ref{eq:discrete2}:
+Informatiquement, il est parfois difficile de se repérer dans la grande matrice en utilisant i et j, on peut donc utiliser le I défini dans~(\ref{eq:transfoIndices}). On peut alors réécrire l'équation~(\ref{eq:discrete2}):
 
 \begin{equation}
  (u^{n+1}_{I}-u^{n}_{I}) + \sigma\Delta t\left(\alpha u^{n}_{I} - \beta u^{n}_{I+1} +  \beta u^{n}_{I-1} + \gamma u^{n}_{I+N_x} +  \gamma u^{n}_{I-N_x}\right) = \Delta t f^{n}_{I} \,,
 \label{eq:discrete3}
 \end{equation}
 
-et le système~\ref{eq:system2} devient:
+et le système~(\ref{eq:system2}) devient:
 
 \begin{equation}
 \left\{
 \begin{array}{l}
-(u^{n+1}_{0}-u^{n}_{0}) + \sigma\Delta t\left(\alpha u^{n}_{0} + \beta u^{n}_{1} +  {\color{green}0} +  \gamma u^{n}_{4} +  {\color{green}0}\right) = f^{n}_{0} \\ 
-(u^{n+1}_{1}-u^{n}_{1}) + \sigma\Delta t\left(\alpha u^{n}_{1} + \beta u^{n}_{2} +  \beta u^{n}_{0} +  \gamma u^{n}_{5} +  {\color{green}0}\right) = f^{n}_{1} \\ 
-(u^{n+1}_{2}-u^{n}_{2}) + \sigma\Delta t\left(\alpha u^{n}_{2} + \beta u^{n}_{3} +  \beta u^{n}_{1} +  \gamma u^{n}_{6} +  {\color{green}0}\right) = f^{n}_{2} \\ 
-(u^{n+1}_{3}-u^{n}_{3}) + \sigma\Delta t\left(\alpha u^{n}_{3} + {\color{green}0} +  \beta u^{n}_{2} +  \gamma u^{n}_{7} +  {\color{green}0}\right) = f^{n}_{3} \\ 
-(u^{n+1}_{4}-u^{n}_{4}) + \sigma\Delta t\left(\alpha u^{n}_{4} + \beta u^{n}_{5} +  {\color{green}0} +  \gamma u^{n}_{8} +  \gamma u^{n}_{0}\right) = f^{n}_{4} \\ 
-(u^{n+1}_{5}-u^{n}_{5}) + \sigma\Delta t\left(\alpha u^{n}_{5} + \beta u^{n}_{6} +  \beta u^{n}_{4} +  \gamma u^{n}_{9} +  \gamma u^{n}_{1}\right) = f^{n}_{5} \\ 
-(u^{n+1}_{6}-u^{n}_{6}) + \sigma\Delta t\left(\alpha u^{n}_{6} + \beta u^{n}_{7} +  \beta u^{n}_{5} +  \gamma u^{n}_{10} +  \gamma u^{n}_{2}\right) = f^{n}_{6} \\ 
-(u^{n+1}_{7}-u^{n}_{7}) + \sigma\Delta t\left(\alpha u^{n}_{7} + {\color{green}0} +  \beta u^{n}_{6} +  \gamma u^{n}_{11} +  \gamma u^{n}_{3}\right) = f^{n}_{7} \\ 
-(u^{n+1}_{8}-u^{n}_{8}) + \sigma\Delta t\left(\alpha u^{n}_{8} + \beta u^{n}_{9} +  {\color{green}0} +  {\color{green}0} +  \gamma u^{n}_{4}\right) = f^{n}_{8} \\ 
-(u^{n+1}_{9}-u^{n}_{9}) + \sigma\Delta t\left(\alpha u^{n}_{9} + \beta u^{n}_{10} +  \beta u^{n}_{8} +  {\color{green}0} +  \gamma u^{n}_{5}\right) = f^{n}_{9} \\ 
-(u^{n+1}_{10}-u^{n}_{10}) + \sigma\Delta t\left(\alpha u^{n}_{10} + \beta u^{n}_{11} +  \beta u^{n}_{9} +  {\color{green}0} +  \gamma u^{n}_{6}\right) = f^{n}_{10} \\ 
-(u^{n+1}_{11}-u^{n}_{11}) + \sigma\Delta t\left(\alpha u^{n}_{11} + {\color{green}0} +  \beta u^{n}_{10} +  {\color{green}0} +  \gamma u^{n}_{7}\right) = f^{n}_{11}  \,.
+(u^{n+1}_{0}-u^{n}_{0}) + \sigma\Delta t\left(\alpha u^{n}_{0} + \beta u^{n}_{1} +  {\color{green}0} +  \gamma u^{n}_{4} +  {\color{green}0}\right) = \Delta t f^{n}_{0} \\ 
+(u^{n+1}_{1}-u^{n}_{1}) + \sigma\Delta t\left(\alpha u^{n}_{1} + \beta u^{n}_{2} +  \beta u^{n}_{0} +  \gamma u^{n}_{5} +  {\color{green}0}\right) = \Delta t f^{n}_{1} \\ 
+(u^{n+1}_{2}-u^{n}_{2}) + \sigma\Delta t\left(\alpha u^{n}_{2} + \beta u^{n}_{3} +  \beta u^{n}_{1} +  \gamma u^{n}_{6} +  {\color{green}0}\right) = \Delta t f^{n}_{2} \\ 
+(u^{n+1}_{3}-u^{n}_{3}) + \sigma\Delta t\left(\alpha u^{n}_{3} + {\color{green}0} +  \beta u^{n}_{2} +  \gamma u^{n}_{7} +  {\color{green}0}\right) = \Delta t f^{n}_{3} \\ 
+(u^{n+1}_{4}-u^{n}_{4}) + \sigma\Delta t\left(\alpha u^{n}_{4} + \beta u^{n}_{5} +  {\color{green}0} +  \gamma u^{n}_{8} +  \gamma u^{n}_{0}\right) = \Delta t f^{n}_{4} \\ 
+(u^{n+1}_{5}-u^{n}_{5}) + \sigma\Delta t\left(\alpha u^{n}_{5} + \beta u^{n}_{6} +  \beta u^{n}_{4} +  \gamma u^{n}_{9} +  \gamma u^{n}_{1}\right) = \Delta t f^{n}_{5} \\ 
+(u^{n+1}_{6}-u^{n}_{6}) + \sigma\Delta t\left(\alpha u^{n}_{6} + \beta u^{n}_{7} +  \beta u^{n}_{5} +  \gamma u^{n}_{10} +  \gamma u^{n}_{2}\right) = \Delta t f^{n}_{6} \\ 
+(u^{n+1}_{7}-u^{n}_{7}) + \sigma\Delta t\left(\alpha u^{n}_{7} + {\color{green}0} +  \beta u^{n}_{6} +  \gamma u^{n}_{11} +  \gamma u^{n}_{3}\right) = \Delta t f^{n}_{7} \\ 
+(u^{n+1}_{8}-u^{n}_{8}) + \sigma\Delta t\left(\alpha u^{n}_{8} + \beta u^{n}_{9} +  {\color{green}0} +  {\color{green}0} +  \gamma u^{n}_{4}\right) = \Delta t f^{n}_{8} \\ 
+(u^{n+1}_{9}-u^{n}_{9}) + \sigma\Delta t\left(\alpha u^{n}_{9} + \beta u^{n}_{10} +  \beta u^{n}_{8} +  {\color{green}0} +  \gamma u^{n}_{5}\right) = \Delta t f^{n}_{9} \\ 
+(u^{n+1}_{10}-u^{n}_{10}) + \sigma\Delta t\left(\alpha u^{n}_{10} + \beta u^{n}_{11} +  \beta u^{n}_{9} +  {\color{green}0} +  \gamma u^{n}_{6}\right) = \Delta t f^{n}_{10} \\ 
+(u^{n+1}_{11}-u^{n}_{11}) + \sigma\Delta t\left(\alpha u^{n}_{11} + {\color{green}0} +  \beta u^{n}_{10} +  {\color{green}0} +  \gamma u^{n}_{7}\right) = \Delta t f^{n}_{11}  \,.
 \end{array}
 \right.
 \end{equation}
 
 
 
-Le système peut se réécrire sous la forme (faites le produit matrice-vecteur explicitement pour vous en convaincre!) :
+Le système peut se réécrire sous la forme suivante (faites le produit matrice-vecteur explicitement pour vous en convaincre!) :
 
 \setcounter{MaxMatrixCols}{12}
 \begin{equation}
@@ -408,7 +408,7 @@ soit
 U^{n+1} - U^{n} + \sigma\Delta t \mathbb{H} U^{n} = \Delta t F^{n} \,.
 \end{equation}
 
-Chaque ligne de la matrice correspond à donc l'équation \ref{eq:discrete2} écrite pour un sommet du maillage donné : La ligne I de la matrice correspond donc à l'équation~\ref{eq:discrete3} écrite pour le I-ème degré de liberté du système. L'élément (I, J) de la matrice correspond à la contribution de $U_J$ à la ligne pour $U_I$. Si le sommet est près d'un bord, certains termes de l'équation doivent être remplacés par des conditions aux bords, ce qui change la ligne correspondante pour la matrice et le second membre.
+Chaque ligne de la matrice correspond à donc l'équation (\ref{eq:discrete3}) écrite pour un sommet du maillage donné : La ligne I de la matrice correspond donc à l'équation~(\ref{eq:discrete3}) écrite pour le I-ème degré de liberté du système. L'élément (I, J) de la matrice correspond à la contribution de $u_J$ à la ligne pour $u_I$. Si le sommet est près d'un bord, certains termes de l'équation doivent être remplacés par des conditions aux bords, ce qui change la ligne correspondante pour la matrice et le second membre.
 
 
 \bigskip
